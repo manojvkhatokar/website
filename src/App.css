@@ -218,12 +218,52 @@
   background: rgba(13, 20, 35, 0.68);
 }
 
+.map-layout {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 1rem;
+}
+
+.map-frame,
+.map-details {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(13, 19, 33, 0.92);
+  overflow: hidden;
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 360px;
+  border: 0;
+  display: block;
+}
+
+.map-details {
+  padding: 1rem;
+}
+
+.map-details h3 {
+  margin: 0 0 0.7rem;
+  color: #d2e8ff;
+}
+
+.map-details p {
+  margin: 0 0 1rem;
+}
+
 .about-grid {
   margin-top: 1rem;
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: 1.4rem;
   align-items: start;
+}
+
+.about-side {
+  display: grid;
+  gap: 0.9rem;
 }
 
 .stats {
@@ -245,6 +285,87 @@
   display: block;
   color: #7fb7ff;
   font-size: 1.4rem;
+}
+
+.associations {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem;
+  background: #0d1321;
+}
+
+.associations h3 {
+  margin: 0 0 0.55rem;
+  color: #d2e8ff;
+}
+
+.associations p {
+  margin: 0 0 0.6rem;
+}
+
+.associations ul {
+  margin: 0;
+  padding-left: 1.05rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.why-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.why-card,
+.statement-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  background: rgba(13, 19, 33, 0.92);
+}
+
+.why-card h3,
+.statement-card h3 {
+  margin: 0 0 0.55rem;
+  color: #d2e8ff;
+}
+
+.why-card p,
+.statement-card p {
+  margin: 0;
+}
+
+.mission-vision-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.values-grid {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.value-item {
+  padding: 0.75rem;
+  border: 1px solid #2b3952;
+  border-radius: 10px;
+  background: #0d1321;
+}
+
+.value-item strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #b6d7ff;
+}
+
+.value-item p {
+  margin: 0;
+  font-size: 0.94rem;
 }
 
 .contact-layout {
@@ -346,7 +467,14 @@
 @media (max-width: 1000px) {
   .hero-section,
   .about-grid,
+  .why-grid,
+  .mission-vision-grid,
+  .map-layout,
   .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
     grid-template-columns: 1fr;
   }
 

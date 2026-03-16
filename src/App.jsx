@@ -4,33 +4,86 @@ import './App.css'
 
 const COMPANY_EMAIL = 'sales@metalfabpro.com'
 const COMPANY_PHONE = '919876543210'
+const COMPANY_ADDRESS =
+  'Plot 42, MIDC Industrial Area, Bhosari, Pune, Maharashtra 411026, India'
 
 const services = [
   {
-    title: 'CNC Laser Cutting',
+    title: 'MS Double Door Barricades',
     description:
-      'Precision sheet and plate cutting for steel, stainless steel, and aluminum with tight tolerances.',
+      'Specially designed for lift shaft safety during elevator installation, crowd control, and construction site protection.',
   },
   {
-    title: 'Custom Fabrication',
+    title: 'MS Scaffolding Systems',
     description:
-      'End-to-end fabrication of frames, enclosures, ducts, and structural assemblies built for industry.',
+      'Reliable scaffolding support solutions for residential, commercial, and industrial project requirements.',
   },
   {
-    title: 'Welding & Assembly',
+    title: 'Elevator Industry Solutions',
     description:
-      'MIG, TIG, and arc welding delivered by certified technicians with strict quality controls.',
+      'Supply and fabrication of templates, checkered plates, T-brackets, lifelines, and other safety components.',
   },
   {
-    title: 'Surface Finishing',
+    title: 'Lift Installation Jobs',
     description:
-      'Powder coating, grinding, polishing, and protective finishing for durability and premium appearance.',
+      'Professional execution of elevator installation projects with precision, compliance, and safety-first practices.',
+  },
+  {
+    title: 'Customized MS Fabrication Works',
+    description:
+      'All types of modern and tailored mild-steel fabrication services designed for diverse client needs.',
+  },
+  {
+    title: 'PAN India Rental & Sale Services',
+    description:
+      'Nationwide availability for both purchase and rental, ensuring quick deployment wherever your site is located.',
   },
 ]
 
 const whatsappChatLink = `https://wa.me/${COMPANY_PHONE}?text=${encodeURIComponent(
   'Hello MetalFab Pro, I would like to discuss a manufacturing requirement.',
 )}`
+const mapsQuery = encodeURIComponent(COMPANY_ADDRESS)
+const mapsEmbedLink = `https://maps.google.com/maps?q=${mapsQuery}&z=15&output=embed`
+const mapsOpenLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`
+
+const whyChooseUsPoints = [
+  {
+    title: 'Quality Assurance',
+    description: 'Rigorous safety and durability checks on every product and installation.',
+  },
+  {
+    title: 'Customized Solutions',
+    description: 'Tailored execution based on project-specific technical requirements.',
+  },
+  {
+    title: 'Experienced Team',
+    description: 'Skilled professionals ensuring reliable service and on-site safety.',
+  },
+  {
+    title: 'Timely Delivery',
+    description: 'Prompt supply and installation support to keep projects on track.',
+  },
+]
+
+const coreValues = [
+  {
+    title: 'Safety',
+    description: 'Prioritizing client and worker well-being in every operation.',
+  },
+  {
+    title: 'Integrity',
+    description: 'Transparent and ethical business practices at every stage.',
+  },
+  {
+    title: 'Innovation',
+    description: 'Continuous product and service improvement for better results.',
+  },
+  {
+    title: 'Customer Focus',
+    description: 'Building long-term partnerships through dependable support.',
+  },
+]
 
 function App() {
   const canvasRef = useRef(null)
@@ -94,7 +147,7 @@ function App() {
 
     const particleMaterial = new THREE.PointsMaterial({
       vertexColors: true,
-      size: 0.06,
+      size: 0.09,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.9,
@@ -215,8 +268,12 @@ function App() {
             MetalFab Pro
           </a>
           <nav>
-            <a href="#services">Services</a>
+            <a href="#services">Offerings</a>
             <a href="#about">About</a>
+            <a href="#why-us">Why Us</a>
+            <a href="#mission">Mission</a>
+            <a href="#vision">Vision</a>
+            <a href="#location">Location</a>
             <a href="#contact">Contact</a>
           </nav>
         </header>
@@ -256,9 +313,9 @@ function App() {
         </section>
 
         <section className="section" id="services">
-        <h2 className="reveal">Our Services</h2>
+        <h2 className="reveal">Our Offerings</h2>
         <p className="section-subtitle reveal" style={{ '--reveal-delay': '100ms' }}>
-          Built for durability, precision, and production efficiency.
+          Safety-focused products and execution services for elevator and construction industries.
         </p>
         <div className="service-grid">
           {services.map((service, index) => (
@@ -278,26 +335,98 @@ function App() {
         <h2 className="reveal">About Us</h2>
         <div className="about-grid">
           <p className="reveal" style={{ '--reveal-delay': '90ms' }}>
-            MetalFab Pro is a fabrication-driven manufacturing company focused on
-            delivering reliable products with fast turnaround. Our facility blends
-            digital fabrication workflows with strict QC standards to ensure each
-            component performs in demanding environments.
+            M/s V K ENTERPRISES is a dynamic provider of barricades, scaffolding, and MS fabrication solutions
+            across India. We deliver innovative, durable, and safe products for construction, event management,
+            and industrial applications, with a strong specialization in elevator industry requirements.
           </p>
-          <ul className="stats">
-            <li className="reveal" style={{ '--reveal-delay': '140ms' }}>
-              <strong>15+</strong>
-              <span>Years of Industry Experience</span>
-            </li>
-            <li className="reveal" style={{ '--reveal-delay': '220ms' }}>
-              <strong>500+</strong>
-              <span>Completed Industrial Projects</span>
-            </li>
-            <li className="reveal" style={{ '--reveal-delay': '300ms' }}>
-              <strong>98%</strong>
-              <span>On-Time Delivery Record</span>
-            </li>
-          </ul>
+          <div className="about-side">
+            <div className="associations reveal" style={{ '--reveal-delay': '360ms' }}>
+              <h3>Key Associations</h3>
+              <p>Trusted vendor for leading MNC elevator companies:</p>
+              <ul>
+                <li>Toshiba Johnson India Pvt Ltd</li>
+                <li>TKE India Pvt Ltd</li>
+                <li>Mitsubishi Elevators India Pvt Ltd</li>
+              </ul>
+            </div>
+          </div>
         </div>
+        </section>
+
+        <section className="section" id="why-us">
+          <h2 className="reveal">Why Choose Us?</h2>
+          <div className="why-grid">
+            {whyChooseUsPoints.map((point, index) => (
+              <article
+                className="why-card reveal"
+                key={point.title}
+                style={{ '--reveal-delay': `${100 + index * 80}ms` }}
+              >
+                <h3>{point.title}</h3>
+                <p>{point.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <article className="statement-card reveal" style={{ '--reveal-delay': '220ms' }}>
+            <h3>Core Values</h3>
+            <div className="values-grid">
+              {coreValues.map((value) => (
+                <div key={value.title} className="value-item">
+                  <strong>{value.title}</strong>
+                  <p>{value.description}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+
+        <section className="section section-alt" id="mission">
+          <h2 className="reveal">Mission</h2>
+            <p>
+              To enhance safety and efficiency in construction and elevator
+              installation through innovative barricade, scaffolding, and
+              fabrication solutions.
+            </p>
+        </section>
+
+        <section className="section" id="vision">
+          <h2 className="reveal">Vision</h2>
+            <p>
+              To be India’s leading provider of barricades, scaffolding, and
+              fabrication services, recognized for safety, quality, and customer
+              satisfaction.
+            </p>
+        </section>
+
+        <section className="section" id="location">
+          <h2 className="reveal">Our Location</h2>
+          <p className="section-subtitle reveal" style={{ '--reveal-delay': '90ms' }}>
+            Visit our fabrication facility or navigate directly using Google Maps.
+          </p>
+          <div className="map-layout">
+            <div className="map-frame reveal" style={{ '--reveal-delay': '150ms' }}>
+              <iframe
+                title="MetalFab Pro facility location"
+                src={mapsEmbedLink}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            <aside className="map-details reveal" style={{ '--reveal-delay': '220ms' }}>
+              <h3>Plant Address</h3>
+              <p>{COMPANY_ADDRESS}</p>
+              <a
+                className="btn btn-secondary"
+                href={mapsOpenLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open in Google Maps
+              </a>
+            </aside>
+          </div>
         </section>
 
         <section className="section" id="contact">
