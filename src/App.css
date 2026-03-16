@@ -317,6 +317,14 @@
   gap: 1rem;
 }
 
+.mission-vision-main {
+  text-align: center;
+}
+
+.mission-vision-main .mission-vision-grid {
+  margin-top: 1rem;
+}
+
 .why-card,
 .statement-card {
   border: 1px solid var(--border);

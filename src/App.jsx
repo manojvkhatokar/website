@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import './App.css'
 
-const COMPANY_EMAIL = 'sales@metalfabpro.com'
-const COMPANY_PHONE = '919876543210'
-const COMPANY_ADDRESS =
-  'Plot 42, MIDC Industrial Area, Bhosari, Pune, Maharashtra 411026, India'
+const COMPANY_EMAIL = 'vkent0924@gmail.com'
+const COMPANY_PHONE = '919886041375'
+const FACTORY_ADDRESS = ' #41, Ground Floor, 2nd D Cross, Arrekempanahalli, Opp. 10th Cross, Wilson Garden, Bengaluru – 560 027, Karnataka, India'
+const OFFICE_ADDRESS = ' #6, 1st Cross, Ashrama Road, Yelachenahalli, Kanakapura Main Road, Bengaluru – 560 078, Karnataka, India'
 
 const services = [
   {
@@ -43,9 +43,13 @@ const services = [
 const whatsappChatLink = `https://wa.me/${COMPANY_PHONE}?text=${encodeURIComponent(
   'Hello MetalFab Pro, I would like to discuss a manufacturing requirement.',
 )}`
-const mapsQuery = encodeURIComponent(COMPANY_ADDRESS)
+const mapsQuery = encodeURIComponent(FACTORY_ADDRESS)
 const mapsEmbedLink = `https://maps.google.com/maps?q=${mapsQuery}&z=15&output=embed`
 const mapsOpenLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`
+
+const officemapsQuery = encodeURIComponent(OFFICE_ADDRESS)
+const officemapsEmbedLink = `https://maps.google.com/maps?q=${officemapsQuery}&z=15&output=embed`
+const officemapsOpenLink = `https://www.google.com/maps/search/?api=1&query=${officemapsQuery}`
 
 const whyChooseUsPoints = [
   {
@@ -84,6 +88,33 @@ const coreValues = [
     description: 'Building long-term partnerships through dependable support.',
   },
 ]
+
+function MissionVisionPanel() {
+  return (
+    <section className="section mission-vision-main reveal" style={{ '--reveal-delay': '180ms' }}>
+      <h2>Mission & Vision</h2>
+      <div className="mission-vision-grid">
+        <article className="statement-card">
+        <h3>Mission</h3>
+        <p>
+          To enhance safety and efficiency in construction and elevator
+          installation through innovative barricade, scaffolding, and
+          fabrication solutions.
+        </p>
+        </article>
+
+        <article className="statement-card">
+        <h3>Vision</h3>
+        <p>
+          To be India’s leading provider of barricades, scaffolding, and
+          fabrication services, recognized for safety, quality, and customer
+          satisfaction.
+        </p>
+        </article>
+      </div>
+    </section>
+  )
+}
 
 function App() {
   const canvasRef = useRef(null)
@@ -265,14 +296,12 @@ function App() {
       <div className="site-shell">
         <header className="topbar reveal">
           <a className="brand" href="#home">
-            MetalFab Pro
+            M/s V K ENTERPRISES
           </a>
           <nav>
             <a href="#services">Offerings</a>
             <a href="#about">About</a>
             <a href="#why-us">Why Us</a>
-            <a href="#mission">Mission</a>
-            <a href="#vision">Vision</a>
             <a href="#location">Location</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -280,8 +309,8 @@ function App() {
 
         <section className="hero-section" id="home">
           <div className="hero-copy reveal" style={{ '--reveal-delay': '120ms' }}>
-            <p className="tag">Manufacturing & Fabrication Solutions</p>
-            <h1>Precision Engineering for Industrial Growth</h1>
+            <p className="tag">M/s V K ENTERPRISES</p>
+            <h1>Building Safety, Elevating Trust</h1>
             <p>
               We deliver high-quality manufacturing, metal fabrication, and custom
               production services for infrastructure, automotive, and process
@@ -313,44 +342,48 @@ function App() {
         </section>
 
         <section className="section" id="services">
-        <h2 className="reveal">Our Offerings</h2>
-        <p className="section-subtitle reveal" style={{ '--reveal-delay': '100ms' }}>
-          Safety-focused products and execution services for elevator and construction industries.
-        </p>
-        <div className="service-grid">
-          {services.map((service, index) => (
-            <article
-              className="service-card reveal"
-              key={service.title}
-              style={{ '--reveal-delay': `${160 + index * 80}ms` }}
-            >
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-            </article>
-          ))}
-        </div>
+          <h2 className="reveal">Our Offerings</h2>
+          <p className="section-subtitle reveal" style={{ '--reveal-delay': '100ms' }}>
+            Safety-focused products and execution services for elevator and
+            construction industries.
+          </p>
+          <div className="service-grid">
+            {services.map((service, index) => (
+              <article
+                className="service-card reveal"
+                key={service.title}
+                style={{ '--reveal-delay': `${160 + index * 80}ms` }}
+              >
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="section section-alt" id="about">
-        <h2 className="reveal">About Us</h2>
-        <div className="about-grid">
-          <p className="reveal" style={{ '--reveal-delay': '90ms' }}>
-            M/s V K ENTERPRISES is a dynamic provider of barricades, scaffolding, and MS fabrication solutions
-            across India. We deliver innovative, durable, and safe products for construction, event management,
-            and industrial applications, with a strong specialization in elevator industry requirements.
-          </p>
-          <div className="about-side">
-            <div className="associations reveal" style={{ '--reveal-delay': '360ms' }}>
-              <h3>Key Associations</h3>
-              <p>Trusted vendor for leading MNC elevator companies:</p>
-              <ul>
-                <li>Toshiba Johnson India Pvt Ltd</li>
-                <li>TKE India Pvt Ltd</li>
-                <li>Mitsubishi Elevators India Pvt Ltd</li>
-              </ul>
+          <h2 className="reveal">About Us</h2>
+          <div className="about-grid">
+            <p className="reveal" style={{ '--reveal-delay': '90ms' }}>
+              M/s V K ENTERPRISES is a dynamic provider of barricades,
+              scaffolding, and MS fabrication solutions across India. We deliver
+              innovative, durable, and safe products for construction, event
+              management, and industrial applications, with a strong
+              specialization in elevator industry requirements.
+            </p>
+            <div className="about-side">
+              <div className="associations reveal" style={{ '--reveal-delay': '220ms' }}>
+                <h3>Key Associations</h3>
+                <p>Trusted vendor for leading MNC elevator companies:</p>
+                <ul>
+                  <li>Toshiba Johnson India Pvt Ltd</li>
+                  <li>TKE India Pvt Ltd</li>
+                  <li>Mitsubishi Elevators India Pvt Ltd</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        <MissionVisionPanel />
         </section>
 
         <section className="section" id="why-us">
@@ -381,23 +414,6 @@ function App() {
           </article>
         </section>
 
-        <section className="section section-alt" id="mission">
-          <h2 className="reveal">Mission</h2>
-            <p>
-              To enhance safety and efficiency in construction and elevator
-              installation through innovative barricade, scaffolding, and
-              fabrication solutions.
-            </p>
-        </section>
-
-        <section className="section" id="vision">
-          <h2 className="reveal">Vision</h2>
-            <p>
-              To be India’s leading provider of barricades, scaffolding, and
-              fabrication services, recognized for safety, quality, and customer
-              satisfaction.
-            </p>
-        </section>
 
         <section className="section" id="location">
           <h2 className="reveal">Our Location</h2>
@@ -415,8 +431,8 @@ function App() {
               />
             </div>
             <aside className="map-details reveal" style={{ '--reveal-delay': '220ms' }}>
-              <h3>Plant Address</h3>
-              <p>{COMPANY_ADDRESS}</p>
+              <h3>Factory Address</h3>
+              <p>{FACTORY_ADDRESS}</p>
               <a
                 className="btn btn-secondary"
                 href={mapsOpenLink}
@@ -427,101 +443,124 @@ function App() {
               </a>
             </aside>
           </div>
+          <div className="map-layout">
+              <div className="map-frame reveal" style={{ '--reveal-delay': '150ms' }}>
+              <iframe
+                title="MetalFab Pro facility location"
+                src={officemapsEmbedLink}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            <aside className="map-details reveal" style={{ '--reveal-delay': '220ms' }}>
+              <h3>Office Address</h3>
+              <p>{OFFICE_ADDRESS}</p>
+              <a
+                className="btn btn-secondary"
+                href={officemapsOpenLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open in Google Maps
+              </a>
+            </aside>
+          </div>
         </section>
 
         <section className="section" id="contact">
-        <h2 className="reveal">Contact Us</h2>
-        <p className="section-subtitle reveal" style={{ '--reveal-delay': '90ms' }}>
-          Share your requirement and our team will connect with you promptly.
-        </p>
-        <div className="contact-layout">
-          <form
-            className="contact-form reveal"
-            style={{ '--reveal-delay': '160ms' }}
-            onSubmit={handleSubmit}
-          >
-            <label>
-              Full Name
-              <input
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Email Address
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Company Name
-              <input
-                name="company"
-                type="text"
-                value={formData.company}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Service Needed
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-              >
-                {services.map((service) => (
-                  <option key={service.title} value={service.title}>
-                    {service.title}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Project Details
-              <textarea
-                name="message"
-                rows="5"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Material, quantity, drawings, delivery timeline..."
-                required
-              />
-            </label>
-            <button type="submit" className="btn btn-primary">
-              Send Query via Email
-            </button>
-            {status && <p className="status-message">{status}</p>}
-          </form>
-
-          <aside className="contact-info reveal" style={{ '--reveal-delay': '240ms' }}>
-            <h3>Direct Contact</h3>
-            <p>
-              <strong>Email:</strong>{' '}
-              <a href={`mailto:${COMPANY_EMAIL}`}>{COMPANY_EMAIL}</a>
-            </p>
-            <p>
-              <strong>Phone:</strong> <a href={`tel:+${COMPANY_PHONE}`}>+{COMPANY_PHONE}</a>
-            </p>
-            <p>
-              <strong>Working Hours:</strong> Mon - Sat, 9:00 AM - 7:00 PM
-            </p>
-            <a
-              className="btn btn-whatsapp"
-              href={whatsappChatLink}
-              target="_blank"
-              rel="noreferrer"
+          <h2 className="reveal">Contact Us</h2>
+          <p className="section-subtitle reveal" style={{ '--reveal-delay': '90ms' }}>
+            Share your requirement and our team will connect with you promptly.
+          </p>
+          <div className="contact-layout">
+            <form
+              className="contact-form reveal"
+              style={{ '--reveal-delay': '160ms' }}
+              onSubmit={handleSubmit}
             >
-              Start WhatsApp Chat
-            </a>
-          </aside>
-        </div>
+              <label>
+                Full Name
+                <input
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Email Address
+                <input
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Company Name
+                <input
+                  name="company"
+                  type="text"
+                  value={formData.company}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Service Needed
+                <select
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                >
+                  {services.map((service) => (
+                    <option key={service.title} value={service.title}>
+                      {service.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Project Details
+                <textarea
+                  name="message"
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Material, quantity, drawings, delivery timeline..."
+                  required
+                />
+              </label>
+              <button type="submit" className="btn btn-primary">
+                Send Query via Email
+              </button>
+              {status && <p className="status-message">{status}</p>}
+            </form>
+
+            <aside className="contact-info reveal" style={{ '--reveal-delay': '240ms' }}>
+              <h3>Direct Contact</h3>
+              <p>
+                <strong>Email:</strong>{' '}
+                <a href={`mailto:${COMPANY_EMAIL}`}>{COMPANY_EMAIL}</a>
+              </p>
+              <p>
+                <strong>Phone:</strong> <a href={`tel:+${COMPANY_PHONE}`}>+{COMPANY_PHONE}</a>
+              </p>
+              <p>
+                <strong>Working Hours:</strong> Mon - Sat, 9:00 AM - 7:00 PM
+              </p>
+              <a
+                className="btn btn-whatsapp"
+                href={whatsappChatLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Start WhatsApp Chat
+              </a>
+            </aside>
+          </div>
         </section>
 
         <a
