@@ -104,6 +104,34 @@
   line-height: 1.1;
 }
 
+.typewriter-heading {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.06em;
+  min-height: 1.1em;
+}
+
+.typewriter-cursor {
+  color: #b6d7ff;
+  animation: typewriter-blink 0.9s steps(1, end) infinite;
+}
+
+.typewriter-cursor.is-typing-complete {
+  animation-duration: 1.1s;
+}
+
+@keyframes typewriter-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .hero-copy p {
   max-width: 62ch;
 }
@@ -448,6 +476,12 @@
     transform: none;
     filter: none;
     transition: none;
+  }
+
+  .typewriter-cursor,
+  .typewriter-cursor.is-typing-complete {
+    animation: none;
+    opacity: 1;
   }
 }
 

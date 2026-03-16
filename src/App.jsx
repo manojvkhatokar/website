@@ -41,7 +41,7 @@ const services = [
 ]
 
 const whatsappChatLink = `https://wa.me/${COMPANY_PHONE}?text=${encodeURIComponent(
-  'Hello MetalFab Pro, I would like to discuss a manufacturing requirement.',
+  'Hello M/s V K Enterprises, I would like to discuss a manufacturing requirement.',
 )}`
 const mapsQuery = encodeURIComponent(FACTORY_ADDRESS)
 const mapsEmbedLink = `https://maps.google.com/maps?q=${mapsQuery}&z=15&output=embed`
@@ -89,6 +89,8 @@ const coreValues = [
   },
 ]
 
+const HERO_HEADLINE = 'Building Safety, Elevating Trust'
+
 function MissionVisionPanel() {
   return (
     <section className="section mission-vision-main reveal" style={{ '--reveal-delay': '180ms' }}>
@@ -118,6 +120,8 @@ function MissionVisionPanel() {
 
 function App() {
   const canvasRef = useRef(null)
+  const [typedHeadline, setTypedHeadline] = useState('')
+  const [isTypingComplete, setIsTypingComplete] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -126,6 +130,32 @@ function App() {
     message: '',
   })
   const [status, setStatus] = useState('')
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedHeadline(HERO_HEADLINE)
+      setIsTypingComplete(true)
+      return undefined
+    }
+
+    let charIndex = 0
+    setTypedHeadline('')
+    setIsTypingComplete(false)
+
+    const typingInterval = window.setInterval(() => {
+      charIndex += 1
+      setTypedHeadline(HERO_HEADLINE.slice(0, charIndex))
+
+      if (charIndex >= HERO_HEADLINE.length) {
+        window.clearInterval(typingInterval)
+        setIsTypingComplete(true)
+      }
+    }, 85)
+
+    return () => {
+      window.clearInterval(typingInterval)
+    }
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -309,7 +339,15 @@ function App() {
 
         <section className="hero-section" id="home">
           <div className="hero-copy reveal" style={{ '--reveal-delay': '120ms' }}>
-            <h1>Building Safety, Elevating Trust</h1>
+            <h1 className="typewriter-heading">
+              <span>{typedHeadline}</span>
+              <span
+                className={`typewriter-cursor${isTypingComplete ? ' is-typing-complete' : ''}`}
+                aria-hidden="true"
+              >
+                |
+              </span>
+            </h1>
             <p>
               We deliver high-quality manufacturing, metal fabrication, and custom
               production services for infrastructure, automotive, and process
@@ -413,7 +451,7 @@ function App() {
           <div className="map-layout">
             <div className="map-frame reveal" style={{ '--reveal-delay': '150ms' }}>
               <iframe
-                title="MetalFab Pro facility location"
+                title="M/s V K Enterprises facility location"
                 src={mapsEmbedLink}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -436,7 +474,7 @@ function App() {
           <div className="map-layout">
               <div className="map-frame reveal" style={{ '--reveal-delay': '150ms' }}>
               <iframe
-                title="MetalFab Pro facility location"
+                title="M/s V K Enterprises office location"
                 src={officemapsEmbedLink}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -564,7 +602,7 @@ function App() {
         </a>
 
         <footer className="footer reveal" style={{ '--reveal-delay': '100ms' }}>
-          © {new Date().getFullYear()} MetalFab Pro • Manufacturing & Fabrication
+          © {new Date().getFullYear()} M/s V K Enterprises • Manufacturing & Fabrication
           Specialists
         </footer>
       </div>
