@@ -56,79 +56,58 @@ function App() {
       alpha: true,
     })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setClearColor(0x000000, 0)
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100)
-    camera.position.set(0, 1.5, 7)
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 180)
+    camera.position.set(0, 0, 16)
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.45)
-    scene.add(ambientLight)
+    const particleCount = 1900
+    const particleGeometry = new THREE.BufferGeometry()
+    const particlePositions = new Float32Array(particleCount * 3)
+    const particleColors = new Float32Array(particleCount * 3)
+    const baseY = new Float32Array(particleCount)
 
-    const keyLight = new THREE.DirectionalLight(0x7aa7ff, 1.2)
-    keyLight.position.set(4, 6, 4)
-    scene.add(keyLight)
+    for (let i = 0; i < particleCount; i += 1) {
+      const offset = i * 3
 
-    const rimLight = new THREE.PointLight(0xff8f4a, 1.4, 20)
-    rimLight.position.set(-4, 3, -2)
-    scene.add(rimLight)
+      const x = (Math.random() - 0.5) * 70
+      const y = (Math.random() - 0.5) * 30
+      const z = (Math.random() - 0.5) * 80
 
-    const factoryGroup = new THREE.Group()
-    scene.add(factoryGroup)
+      particlePositions[offset] = x
+      particlePositions[offset + 1] = y
+      particlePositions[offset + 2] = z
+      baseY[i] = y
 
-    const ringGeometry = new THREE.TorusGeometry(1.35, 0.18, 18, 100)
-    const ringMaterial = new THREE.MeshStandardMaterial({
-      color: 0x2f3b59,
-      metalness: 0.8,
-      roughness: 0.35,
-    })
-    const ring = new THREE.Mesh(ringGeometry, ringMaterial)
-    ring.rotation.x = Math.PI / 2.2
-    factoryGroup.add(ring)
+      const mix = Math.random()
+      particleColors[offset] = 0.35 + mix * 0.35
+      particleColors[offset + 1] = 0.6 + mix * 0.25
+      particleColors[offset + 2] = 1
+    }
 
-    const coreGeometry = new THREE.CylinderGeometry(0.55, 0.55, 1.6, 28)
-    const coreMaterial = new THREE.MeshStandardMaterial({
-      color: 0x5d7fb8,
-      metalness: 0.55,
-      roughness: 0.45,
-    })
-    const core = new THREE.Mesh(coreGeometry, coreMaterial)
-    core.position.y = -0.1
-    factoryGroup.add(core)
-
-    const beamGeometry = new THREE.BoxGeometry(0.2, 2.4, 0.2)
-    const beamMaterial = new THREE.MeshStandardMaterial({
-      color: 0xbcc9e6,
-      metalness: 0.7,
-      roughness: 0.2,
-    })
-
-    const beams = Array.from({ length: 8 }, (_, index) => {
-      const beam = new THREE.Mesh(beamGeometry, beamMaterial)
-      const angle = (index / 8) * Math.PI * 2
-      beam.position.set(Math.cos(angle) * 1.4, 0, Math.sin(angle) * 1.4)
-      beam.rotation.y = angle
-      factoryGroup.add(beam)
-      return beam
-    })
-
-    const base = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 2.2, 0.25, 40),
-      new THREE.MeshStandardMaterial({
-        color: 0x1a1e2e,
-        metalness: 0.4,
-        roughness: 0.6,
-      }),
+    particleGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(particlePositions, 3),
     )
-    base.position.y = -1.1
-    scene.add(base)
+    particleGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3))
+
+    const particleMaterial = new THREE.PointsMaterial({
+      vertexColors: true,
+      size: 0.06,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial)
+    scene.add(particles)
 
     const resizeRenderer = () => {
-      const width = canvas.clientWidth
-      const height = canvas.clientHeight
-
-      if (width === 0 || height === 0) {
-        return
-      }
+      const width = window.innerWidth
+      const height = window.innerHeight
 
       renderer.setSize(width, height, false)
       camera.aspect = width / height
@@ -138,15 +117,23 @@ function App() {
     resizeRenderer()
     window.addEventListener('resize', resizeRenderer)
 
+    const clock = new THREE.Clock()
     let frameId = 0
+
     const animate = () => {
       frameId = requestAnimationFrame(animate)
-      ring.rotation.z += 0.012
-      core.rotation.y += 0.01
-      factoryGroup.rotation.y += 0.004
-      beams.forEach((beam, index) => {
-        beam.rotation.x = Math.sin((Date.now() * 0.001 + index) * 1.7) * 0.2
-      })
+      const elapsed = clock.getElapsedTime()
+
+      const positions = particleGeometry.attributes.position.array
+      for (let i = 0; i < particleCount; i += 1) {
+        positions[i * 3 + 1] = baseY[i] + Math.sin(elapsed * 0.7 + i * 0.21) * 0.16
+      }
+      particleGeometry.attributes.position.needsUpdate = true
+
+      particles.rotation.y = elapsed * 0.015
+      particles.rotation.x = Math.sin(elapsed * 0.11) * 0.05
+      particleMaterial.opacity = 0.75 + Math.sin(elapsed * 0.8) * 0.08
+
       renderer.render(scene, camera)
     }
     animate()
@@ -154,14 +141,8 @@ function App() {
     return () => {
       cancelAnimationFrame(frameId)
       window.removeEventListener('resize', resizeRenderer)
-      ringGeometry.dispose()
-      ringMaterial.dispose()
-      coreGeometry.dispose()
-      coreMaterial.dispose()
-      beamGeometry.dispose()
-      beamMaterial.dispose()
-      base.geometry.dispose()
-      base.material.dispose()
+      particleGeometry.dispose()
+      particleMaterial.dispose()
       renderer.dispose()
     }
   }, [])
@@ -220,52 +201,61 @@ function App() {
   }
 
   return (
-    <div className="site-shell">
-      <header className="topbar reveal">
-        <a className="brand" href="#home">
-          Manoj Khatokar
-        </a>
-        <nav>
-          <a href="#services">Services</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
+    <div className="site-wrapper">
+      <canvas
+        ref={canvasRef}
+        className="background-canvas"
+        aria-label="Animated industrial background"
+      />
+      <div className="bg-overlay" aria-hidden="true" />
 
-      <section className="hero-section" id="home">
-        <div className="hero-copy reveal" style={{ '--reveal-delay': '120ms' }}>
-          <p className="tag">Manufacturing & Fabrication Solutions</p>
-          <h1>Precision Engineering for Industrial Growth</h1>
-          <p>
-            We deliver high-quality manufacturing, metal fabrication, and custom
-            production services for infrastructure, automotive, and process
-            industries.
-          </p>
-          <div className="hero-actions">
-            <a className="btn btn-primary" href="#contact">
-              Request a Quote
-            </a>
-            <a
-              className="btn btn-secondary"
-              href={whatsappChatLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              WhatsApp Chat
-            </a>
+      <div className="site-shell">
+        <header className="topbar reveal">
+          <a className="brand" href="#home">
+            MetalFab Pro
+          </a>
+          <nav>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </header>
+
+        <section className="hero-section" id="home">
+          <div className="hero-copy reveal" style={{ '--reveal-delay': '120ms' }}>
+            <p className="tag">Manufacturing & Fabrication Solutions</p>
+            <h1>Precision Engineering for Industrial Growth</h1>
+            <p>
+              We deliver high-quality manufacturing, metal fabrication, and custom
+              production services for infrastructure, automotive, and process
+              industries.
+            </p>
+            <div className="hero-actions">
+              <a className="btn btn-primary" href="#contact">
+                Request a Quote
+              </a>
+              <a
+                className="btn btn-secondary"
+                href={whatsappChatLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp Chat
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="hero-visual reveal" style={{ '--reveal-delay': '220ms' }}>
-          <canvas
-            ref={canvasRef}
-            className="hero-canvas"
-            aria-label="Animated 3D fabrication model"
-          />
-          <p className="canvas-note">Live 3D process visualization powered by Three.js</p>
-        </div>
-      </section>
+          <div className="hero-visual reveal" style={{ '--reveal-delay': '220ms' }}>
+            <h3>Core Capabilities</h3>
+            <ul className="hero-points">
+              <li>Prototype to production support</li>
+              <li>Industrial-grade quality checks</li>
+              <li>Rapid lead times and dispatch</li>
+              <li>Dedicated engineering consultation</li>
+            </ul>
+          </div>
+        </section>
 
-      <section className="section" id="services">
+        <section className="section" id="services">
         <h2 className="reveal">Our Services</h2>
         <p className="section-subtitle reveal" style={{ '--reveal-delay': '100ms' }}>
           Built for durability, precision, and production efficiency.
@@ -282,9 +272,9 @@ function App() {
             </article>
           ))}
         </div>
-      </section>
+        </section>
 
-      <section className="section section-alt" id="about">
+        <section className="section section-alt" id="about">
         <h2 className="reveal">About Us</h2>
         <div className="about-grid">
           <p className="reveal" style={{ '--reveal-delay': '90ms' }}>
@@ -308,9 +298,9 @@ function App() {
             </li>
           </ul>
         </div>
-      </section>
+        </section>
 
-      <section className="section" id="contact">
+        <section className="section" id="contact">
         <h2 className="reveal">Contact Us</h2>
         <p className="section-subtitle reveal" style={{ '--reveal-delay': '90ms' }}>
           Share your requirement and our team will connect with you promptly.
@@ -403,22 +393,23 @@ function App() {
             </a>
           </aside>
         </div>
-      </section>
+        </section>
 
-      <a
-        className="whatsapp-float"
-        href={whatsappChatLink}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Chat with us on WhatsApp"
-      >
-        WhatsApp
-      </a>
+        <a
+          className="whatsapp-float"
+          href={whatsappChatLink}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Chat with us on WhatsApp"
+        >
+          WhatsApp
+        </a>
 
-      <footer className="footer reveal" style={{ '--reveal-delay': '100ms' }}>
-        © {new Date().getFullYear()} MetalFab Pro • Manufacturing & Fabrication
-        Specialists
-      </footer>
+        <footer className="footer reveal" style={{ '--reveal-delay': '100ms' }}>
+          © {new Date().getFullYear()} MetalFab Pro • Manufacturing & Fabrication
+          Specialists
+        </footer>
+      </div>
     </div>
   )
 }
