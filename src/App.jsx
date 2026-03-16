@@ -309,7 +309,6 @@ function App() {
 
         <section className="hero-section" id="home">
           <div className="hero-copy reveal" style={{ '--reveal-delay': '120ms' }}>
-            <p className="tag">M/s V K ENTERPRISES</p>
             <h1>Building Safety, Elevating Trust</h1>
             <p>
               We deliver high-quality manufacturing, metal fabrication, and custom
@@ -329,15 +328,6 @@ function App() {
                 WhatsApp Chat
               </a>
             </div>
-          </div>
-          <div className="hero-visual reveal" style={{ '--reveal-delay': '220ms' }}>
-            <h3>Core Capabilities</h3>
-            <ul className="hero-points">
-              <li>Prototype to production support</li>
-              <li>Industrial-grade quality checks</li>
-              <li>Rapid lead times and dispatch</li>
-              <li>Dedicated engineering consultation</li>
-            </ul>
           </div>
         </section>
 

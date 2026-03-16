@@ -89,12 +89,11 @@
 }
 
 .hero-section {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 2rem;
+  display: flex;
+  justify-content: center;
   padding: 4rem 1rem 2.5rem;
   align-items: center;
-  background: rgba(8, 14, 26, 0.64);
+  background: rgba(134, 116, 214, 0.64);
   border: 1px solid rgba(120, 151, 205, 0.2);
   border-radius: 22px;
 }
@@ -156,26 +155,6 @@
 .btn-whatsapp {
   background: #1fad5a;
   color: white;
-}
-
-.hero-visual {
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: radial-gradient(circle at top, #1f2b46, #101a2e 68%);
-  padding: 1rem 1.1rem;
-}
-
-.hero-visual h3 {
-  margin: 0 0 0.8rem;
-  color: #d2e8ff;
-}
-
-.hero-points {
-  margin: 0;
-  padding-left: 1.05rem;
-  display: grid;
-  gap: 0.65rem;
-  color: #c0d6f7;
 }
 
 .section {
@@ -473,7 +452,6 @@
 }
 
 @media (max-width: 1000px) {
-  .hero-section,
   .about-grid,
   .why-grid,
   .mission-vision-grid,
