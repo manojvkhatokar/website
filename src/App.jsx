@@ -94,7 +94,6 @@ const HERO_HEADLINE = 'Building Safety, Elevating Trust'
 function MissionVisionPanel() {
   return (
     <section className="section mission-vision-main reveal" style={{ '--reveal-delay': '180ms' }}>
-      <h2>Mission & Vision</h2>
       <div className="mission-vision-grid">
         <article className="statement-card">
         <h3>Mission</h3>
@@ -112,6 +111,16 @@ function MissionVisionPanel() {
           fabrication services, recognized for safety, quality, and customer
           satisfaction.
         </p>
+        </article>
+
+        <article className="statement-card">
+        <h3>Key Associations</h3>
+        <p>Trusted vendor for leading MNC elevator companies:</p>
+        <ul>
+          <li>Toshiba Johnson India Pvt Ltd</li>
+          <li>TKE India Pvt Ltd</li>
+          <li>Mitsubishi Elevators India Pvt Ltd</li>
+        </ul>
         </article>
       </div>
     </section>
@@ -391,7 +400,6 @@ function App() {
 
         <section className="section section-alt" id="about">
           <h2 className="reveal">About Us</h2>
-          <div className="about-grid">
             <p className="reveal" style={{ '--reveal-delay': '90ms' }}>
               M/s V K ENTERPRISES is a dynamic provider of barricades,
               scaffolding, and MS fabrication solutions across India. We deliver
@@ -399,18 +407,6 @@ function App() {
               management, and industrial applications, with a strong
               specialization in elevator industry requirements.
             </p>
-            <div className="about-side">
-              <div className="associations reveal" style={{ '--reveal-delay': '220ms' }}>
-                <h3>Key Associations</h3>
-                <p>Trusted vendor for leading MNC elevator companies:</p>
-                <ul>
-                  <li>Toshiba Johnson India Pvt Ltd</li>
-                  <li>TKE India Pvt Ltd</li>
-                  <li>Mitsubishi Elevators India Pvt Ltd</li>
-                </ul>
-              </div>
-            </div>
-          </div>
         <MissionVisionPanel />
         </section>
 

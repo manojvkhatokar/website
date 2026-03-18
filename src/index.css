@@ -65,8 +65,8 @@ html {
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: 60%;
+  max-width: 60%;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);
@@ -74,6 +74,13 @@ html {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+}
+
+@media (max-width: 680px) {
+  #root {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 h1,
