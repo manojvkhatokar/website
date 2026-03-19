@@ -217,7 +217,7 @@ function App() {
 
     const particleMaterial = new THREE.PointsMaterial({
       vertexColors: true,
-      size: 0.09,
+      size: 0.19,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.9,
@@ -253,7 +253,7 @@ function App() {
       }
       particleGeometry.attributes.position.needsUpdate = true
 
-      particles.rotation.y = elapsed * 0.015
+      particles.rotation.y = elapsed * 0.15
       particles.rotation.x = Math.sin(elapsed * 0.11) * 0.05
       particleMaterial.opacity = 0.75 + Math.sin(elapsed * 0.8) * 0.08
 
@@ -341,6 +341,7 @@ function App() {
             <a href="#services">Offerings</a>
             <a href="#about">About</a>
             <a href="#why-us">Why Us</a>
+            <a href="/gallery">Gallery</a>
             <a href="#location">Location</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -437,7 +438,6 @@ function App() {
             </div>
           </article>
         </section>
-
 
         <section className="section" id="location">
           <h2 className="reveal">Our Location</h2>

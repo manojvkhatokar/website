@@ -331,6 +331,223 @@
   color: #9caac4;
 }
 
+.next-gallery {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(44, 162, 255, 0.16), transparent 45%),
+    radial-gradient(circle at 85% 8%, rgba(141, 95, 255, 0.16), transparent 38%),
+    rgba(10, 18, 33, 0.75);
+}
+
+.gallery-kicker {
+  display: inline-flex;
+  margin: 0;
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(154, 193, 255, 0.35);
+  color: #cde4ff;
+  background: rgba(34, 67, 116, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.parallax-gallery-track {
+  --gap: clamp(0.9rem, 1.8vw, 1.4rem);
+  margin-top: 1.25rem;
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0.45rem 0.2rem 0.95rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 170, 255, 0.6) rgba(13, 19, 33, 0.35);
+  perspective: 1200px;
+}
+
+.parallax-gallery-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.parallax-gallery-track::-webkit-scrollbar-track {
+  background: rgba(8, 16, 30, 0.45);
+  border-radius: 999px;
+}
+
+.parallax-gallery-track::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(80, 132, 235, 0.95), rgba(60, 174, 255, 0.95));
+  border-radius: 999px;
+}
+
+.parallax-gallery-card {
+  --parallax-shift: 0px;
+  --card-rotate: 0deg;
+  flex: 0 0 min(72vw, 420px);
+  margin: 0;
+  border: 1px solid rgba(146, 184, 255, 0.24);
+  border-radius: 16px;
+  background: linear-gradient(170deg, rgba(14, 24, 42, 0.96), rgba(9, 15, 27, 0.95));
+  box-shadow: 0 22px 48px rgba(6, 15, 30, 0.45);
+  overflow: hidden;
+  scroll-snap-align: center;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--card-rotate)) translateZ(0);
+  transition: transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
+  cursor: pointer;
+}
+
+.parallax-gallery-card:hover {
+  border-color: rgba(172, 208, 255, 0.58);
+  box-shadow: 0 28px 60px rgba(13, 39, 86, 0.5);
+}
+
+.parallax-gallery-card:focus-visible {
+  outline: none;
+  border-color: rgba(177, 214, 255, 0.72);
+  box-shadow:
+    0 0 0 3px rgba(131, 185, 255, 0.4),
+    0 28px 60px rgba(13, 39, 86, 0.5);
+}
+
+.parallax-image-wrap {
+  position: relative;
+  height: clamp(230px, 36vw, 330px);
+  overflow: hidden;
+}
+
+.parallax-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(5, 11, 20, 0.06), rgba(5, 11, 20, 0.62));
+  pointer-events: none;
+}
+
+.parallax-image-wrap img {
+  width: calc(100% + 120px);
+  height: 100%;
+  margin-left: -60px;
+  object-fit: cover;
+  object-position: center;
+  transform: translateX(var(--parallax-shift)) scale(1.05);
+  transition: transform 320ms ease;
+  filter: saturate(1.08) contrast(1.07);
+}
+
+.parallax-gallery-card figcaption {
+  padding: 0.9rem 1rem 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.parallax-gallery-card figcaption strong {
+  color: #e6f2ff;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
+}
+
+.parallax-gallery-card figcaption span {
+  color: #9db0cb;
+  font-size: 0.91rem;
+  line-height: 1.35;
+}
+
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.9rem, 2vw, 1.6rem);
+  background: rgba(3, 8, 16, 0.82);
+  backdrop-filter: blur(9px);
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.gallery-lightbox-content {
+  position: relative;
+  width: min(92vw, 980px);
+  max-height: 90vh;
+  border: 1px solid rgba(142, 184, 255, 0.34);
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(10, 18, 33, 0.98), rgba(8, 14, 25, 0.97));
+  box-shadow: 0 34px 70px rgba(3, 10, 22, 0.75);
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+  transition:
+    opacity 280ms ease,
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.gallery-lightbox.is-open {
+  opacity: 1;
+}
+
+.gallery-lightbox.is-open .gallery-lightbox-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gallery-lightbox-content img {
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  display: block;
+  background: rgba(5, 10, 18, 0.92);
+}
+
+.gallery-lightbox-caption {
+  padding: 0.95rem 1.1rem 1.15rem;
+  display: grid;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.gallery-lightbox-caption strong {
+  color: #e6f2ff;
+  font-size: 1.04rem;
+}
+
+.gallery-lightbox-caption span {
+  color: #a5b9d8;
+  font-size: 0.92rem;
+}
+
+.gallery-lightbox-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid rgba(173, 209, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(8, 16, 30, 0.78);
+  color: #d9ecff;
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+
+.gallery-lightbox-close:hover {
+  transform: scale(1.06);
+  border-color: rgba(194, 223, 255, 0.82);
+  background: rgba(17, 33, 59, 0.84);
+}
+
+.gallery-lightbox-close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(126, 183, 255, 0.45);
+}
+
 .service-grid {
   margin-top: 1.4rem;
   display: grid;
@@ -630,6 +847,26 @@
     transform: none;
   }
 
+  .parallax-gallery-card,
+  .parallax-gallery-card:hover,
+  .video-card,
+  .video-card:hover,
+  .parallax-image-wrap img,
+  .gallery-lightbox-close,
+  .gallery-lightbox-close:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .gallery-lightbox,
+  .gallery-lightbox-content,
+  .gallery-lightbox.is-open,
+  .gallery-lightbox.is-open .gallery-lightbox-content {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .btn::before,
   .btn::after {
     display: none;
@@ -652,6 +889,7 @@
   .service-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
 }
 
 @media (max-width: 680px) {
@@ -671,5 +909,13 @@
   .whatsapp-float {
     right: 0.7rem;
     bottom: 0.8rem;
+  }
+
+  .parallax-gallery-card {
+    flex-basis: min(86vw, 360px);
+  }
+
+  .video-card {
+    flex-basis: min(88vw, 340px);
   }
 }
