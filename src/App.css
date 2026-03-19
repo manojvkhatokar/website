@@ -324,6 +324,9 @@
 .section h2 {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: #edf1ef;
+  font-weight: 100;
+  padding: auto;
 }
 
 .section-subtitle {
@@ -805,6 +808,7 @@
   position: fixed;
   right: 1.1rem;
   bottom: 1.1rem;
+  z-index: 40;
   background: #1fad5a;
   color: white;
   text-decoration: none;
