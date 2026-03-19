@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import * as THREE from 'three'
 import './App.css'
 import barricade5TImage from './assets/gallery/SCS-Barricade-5T.jpg'
 import barricade6Image from './assets/gallery/SCS-Barricade-6.jpg'
@@ -31,26 +30,9 @@ const galleryImages = [
   },
 ]
 
-const sampleVideos = [
-  {
-    id: 'aqz-KE-bpKQ',
-    title: 'Sample Product Walkthrough',
-  },
-  {
-    id: 'ScMzIvxBSi4',
-    title: 'Sample Site Safety Demo',
-  },
-  {
-    id: 'M7lc1UVf-VE',
-    title: 'Sample Installation Preview',
-  }
-]
-
 function GalleryPage() {
-  const canvasRef = useRef(null)
   const trackRef = useRef(null)
   const cardRefs = useRef([])
-  const rafRef = useRef(0)
   const closeTimerRef = useRef(0)
   const [activeImage, setActiveImage] = useState(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
@@ -63,104 +45,6 @@ function GalleryPage() {
       })),
     [],
   )
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) {
-      return undefined
-    }
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x000000, 0)
-
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 80)
-    camera.position.z = 24
-
-    const geometry = new THREE.BufferGeometry()
-    const starCount = 1400
-    const positionArray = new Float32Array(starCount * 3)
-    const colorArray = new Float32Array(starCount * 3)
-    const baseY = new Float32Array(starCount)
-
-    for (let i = 0; i < starCount; i += 1) {
-      const i3 = i * 3
-      const x = (Math.random() - 0.5) * 80
-      const y = (Math.random() - 0.5) * 42
-      const z = (Math.random() - 0.5) * 60
-
-      positionArray[i3] = x
-      positionArray[i3 + 1] = y
-      positionArray[i3 + 2] = z
-      baseY[i] = y
-
-      const mix = Math.random()
-      colorArray[i3] = 0.2 + mix * 0.4
-      colorArray[i3 + 1] = 0.45 + mix * 0.42
-      colorArray[i3 + 2] = 0.95
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3))
-
-    const material = new THREE.PointsMaterial({
-      size: 0.1,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 0.85,
-      depthWrite: false,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-    })
-
-    const particles = new THREE.Points(geometry, material)
-    scene.add(particles)
-
-    const onResize = () => {
-      const width = window.innerWidth
-      const height = window.innerHeight
-      renderer.setSize(width, height, false)
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
-    }
-
-    onResize()
-    window.addEventListener('resize', onResize)
-
-    const clock = new THREE.Clock()
-
-    const render = () => {
-      rafRef.current = window.requestAnimationFrame(render)
-      const t = clock.getElapsedTime()
-
-      const positions = geometry.attributes.position.array
-      for (let i = 0; i < starCount; i += 1) {
-        positions[i * 3 + 1] = baseY[i] + Math.sin(t * 0.65 + i * 0.19) * 0.18
-      }
-      geometry.attributes.position.needsUpdate = true
-
-      particles.rotation.y = t * 0.024
-      particles.rotation.x = Math.sin(t * 0.22) * 0.08
-      material.opacity = 0.78 + Math.sin(t * 0.85) * 0.09
-
-      renderer.render(scene, camera)
-    }
-
-    render()
-
-    return () => {
-      window.cancelAnimationFrame(rafRef.current)
-      window.removeEventListener('resize', onResize)
-      geometry.dispose()
-      material.dispose()
-      renderer.dispose()
-    }
-  }, [])
 
   useEffect(() => {
     const track = trackRef.current
@@ -261,87 +145,70 @@ function GalleryPage() {
   }
 
   return (
-    <div className="site-wrapper">
-      <canvas
-        ref={canvasRef}
-        className="background-canvas"
-        aria-label="Animated spatial particles"
-      />
-      <div className="bg-overlay" aria-hidden="true" />
-      <div className="site-shell">
-        <header className="topbar">
-          <a className="brand" href="/">
-            ← Back to Home
-          </a>
-          <nav>
-            <a href="/">Home</a>
-          </nav>
-        </header>
+    <>
+      <section className="section section-alt next-gallery" id="gallery" style={{ marginTop: '1rem' }}>
+        <p className="gallery-kicker">Showcase</p>
+        <p className="section-subtitle">
+          Scroll sideways to view product images.
+        </p>
 
-        <section className="section section-alt next-gallery" id="gallery" style={{ marginTop: '1rem' }}>
-          <p className="gallery-kicker">Showcase</p>
-          <p className="section-subtitle">
-            Scroll sideways to view product images.
-          </p>
-
-          <div className="parallax-gallery-track" ref={trackRef} aria-label="Product gallery">
-            {cards.map((image, index) => (
-              <figure
-                className="parallax-gallery-card"
-                key={image.id}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open ${image.title} image preview`}
-                ref={(element) => {
-                  cardRefs.current[index] = element
-                }}
-                onClick={() => openLightbox(image)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault()
-                    openLightbox(image)
-                  }
-                }}
-              >
-                <div className="parallax-image-wrap">
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                </div>
-                <figcaption>
-                  <strong>{image.title}</strong>
-                  <span>{image.subtitle}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-
-        {activeImage ? (
-          <div
-            className={`gallery-lightbox${isLightboxOpen ? ' is-open' : ''}`}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${activeImage.title} expanded preview`}
-            onClick={closeLightbox}
-          >
-            <div className="gallery-lightbox-content" onClick={(event) => event.stopPropagation()}>
-              <button
-                type="button"
-                className="gallery-lightbox-close"
-                aria-label="Close expanded image"
-                onClick={closeLightbox}
-              >
-                ×
-              </button>
-              <img src={activeImage.src} alt={activeImage.alt} />
-              <div className="gallery-lightbox-caption">
-                <strong>{activeImage.title}</strong>
-                <span>{activeImage.subtitle}</span>
+        <div className="parallax-gallery-track" ref={trackRef} aria-label="Product gallery">
+          {cards.map((image, index) => (
+            <figure
+              className="parallax-gallery-card"
+              key={image.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open ${image.title} image preview`}
+              ref={(element) => {
+                cardRefs.current[index] = element
+              }}
+              onClick={() => openLightbox(image)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  openLightbox(image)
+                }
+              }}
+            >
+              <div className="parallax-image-wrap">
+                <img src={image.src} alt={image.alt} loading="lazy" />
               </div>
+              <figcaption>
+                <strong>{image.title}</strong>
+                <span>{image.subtitle}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {activeImage ? (
+        <div
+          className={`gallery-lightbox${isLightboxOpen ? ' is-open' : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeImage.title} expanded preview`}
+          onClick={closeLightbox}
+        >
+          <div className="gallery-lightbox-content" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="gallery-lightbox-close"
+              aria-label="Close expanded image"
+              onClick={closeLightbox}
+            >
+              ×
+            </button>
+            <img src={activeImage.src} alt={activeImage.alt} />
+            <div className="gallery-lightbox-caption">
+              <strong>{activeImage.title}</strong>
+              <span>{activeImage.subtitle}</span>
             </div>
           </div>
-        ) : null}
-      </div>
-    </div>
+        </div>
+      ) : null}
+    </>
   )
 }
 

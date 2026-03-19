@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import './App.css'
+import GalleryPage from './GalleryPage.jsx'
 
 const COMPANY_EMAIL = 'vkent0924@gmail.com'
 const COMPANY_PHONE = '919886041375'
@@ -340,8 +341,8 @@ function App() {
           <nav>
             <a href="#services">Offerings</a>
             <a href="#about">About</a>
+            <a href="#gallery">Gallery</a>
             <a href="#why-us">Why Us</a>
-            <a href="/gallery">Gallery</a>
             <a href="#location">Location</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -410,6 +411,8 @@ function App() {
             </p>
         <MissionVisionPanel />
         </section>
+
+        <GalleryPage />
 
         <section className="section" id="why-us">
           <h2 className="reveal">Why Choose Us?</h2>
